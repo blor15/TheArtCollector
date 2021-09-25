@@ -44,9 +44,11 @@ const Search = (props) => {
     Promise.all([fetchAllCenturies(), fetchAllClassifications()] )
     .then( (array) => {
       setCenturyList(array[0]); 
-      setClassificationList(array[1])} ) .catch( (error) => {
+      setClassificationList(array[1])} ) 
+      .catch( (error) => {
       console.error(error);
     })
+      .finally ( () => {setIsLoading(false)} );
     
   }, []);
 
@@ -67,12 +69,17 @@ const Search = (props) => {
    * finally: call setIsLoading, set it to false
    */
   return <form id="search" onSubmit={async (event) => {
-    // event.preventDefault()
-    // setIsLoading = true
+    event.preventDefault()
+    setIsLoading(true)
     // // write code here
-    // try {
-
-    // }
+    try {
+      const queryResults = await fetchQueryResults({ century, classification, queryString})
+      setSearchResults(queryResults)
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   }}>
     <fieldset>
       <label htmlFor="keywords">Query</label>
@@ -91,7 +98,9 @@ const Search = (props) => {
         value={classification} 
         onChange={(event) => {setClassification(event.target.value)}}>
         <option value="any">Any</option>
-        {/* map over the classificationList, return an <option /> */}
+        {classificationList.map( (element, index) => {
+          return <option key={index} value={element.name}>{element.name}</option>
+        })}
       </select>
     </fieldset>
     <fieldset>
@@ -102,7 +111,9 @@ const Search = (props) => {
         value={century} 
         onChange={(event) => {setCentury(event.target.value)}}>
         <option value="any">Any</option>
-        {/* map over the centuryList, return an <option /> */}
+        {centuryList.map( (element, index) => {
+          return <option key={index} value={element.name}>{element.name}</option>
+        })}
       </select>
      </fieldset>
     <button>SEARCH</button>

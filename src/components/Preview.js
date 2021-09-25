@@ -7,6 +7,8 @@ import React from 'react';
 import { fetchQueryResultsFromURL } from '../api';
 
 const Preview = (props) => {
+  const [setSearchResults, setFeaturedResult, setIsLoading] = props;
+  const [info, records] = props.searchResults
   /**
    * Destructure setSearchResults, setFeaturedResult, and setIsLoading from props
    * and also destructure info and records from props.searchResults
