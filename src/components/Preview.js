@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 /**
  * We need to import fetchQueryResultsFromURL since we will sometimes have urls in info.prev and info.next
@@ -7,16 +7,14 @@ import React from 'react';
 import { fetchQueryResultsFromURL } from '../api';
 
 const Preview = (props) => {
-  const [setSearchResults, setFeaturedResult, setIsLoading] = props;
-  const [info, records] = props.searchResults
+  const [setSearchResults, setFeaturedResult, setIsLoading] = [props.setSearchResults, props.setFeaturedResult, props.setIsLoading];
+  const [info, records] = [props.setSearchResults];
   /**
    * Destructure setSearchResults, setFeaturedResult, and setIsLoading from props
    * and also destructure info and records from props.searchResults
    * 
    * You need info, records, setSearchResults, setFeaturedResult, and setIsLoading as available constants
    */
-
-
   /**
    * Don't touch this function, it's good to go.
    * 
@@ -39,14 +37,14 @@ const Preview = (props) => {
     <header className="pagination">
       {/* This button should be disabled if nothing is set in info.prev, and should call fetchPage with info.prev when clicked */}
       <button 
-        disabled={} 
+        disabled={info.prev} 
         className="previous"
-        onClick={}>Previous</button>
+        onClick={info.prev}>Previous</button>
       {/* This button should be disabled if nothing is set in info.next, and should call fetchPage with info.next when clicked */}
       <button
-        disabled={}
+        disabled={info.next}
         className="next"
-        onClick={}>Next</button>
+        onClick={info.next}>Next</button>
     </header>
     <section className="results">
       {
