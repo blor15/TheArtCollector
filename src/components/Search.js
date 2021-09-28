@@ -74,7 +74,7 @@ const Search = (props) => {
     // // write code here
     try {
       const queryResults = await fetchQueryResults({ century, classification, queryString})
-      setSearchResults(queryResults)
+      setSearchResults(queryResults.records)
     } catch (error) {
       console.error(error);
     } finally {

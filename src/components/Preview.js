@@ -8,7 +8,7 @@ import { fetchQueryResultsFromURL } from '../api';
 
 const Preview = (props) => {
   const [setSearchResults, setFeaturedResult, setIsLoading] = [props.setSearchResults, props.setFeaturedResult, props.setIsLoading];
-  const [info, records] = [props.setSearchResults];
+  const [info, record] = [props.searchResults];
   /**
    * Destructure setSearchResults, setFeaturedResult, and setIsLoading from props
    * and also destructure info and records from props.searchResults
@@ -47,8 +47,29 @@ const Preview = (props) => {
         onClick={info.next}>Next</button>
     </header>
     <section className="results">
-      {
-        /* Here we should map over the records, and render something like this for each one:
+      { props.searchResults.map( (record, index) => { 
+         return (<div  
+          key={ index }
+          className="object-preview"
+          onClick={(event) => {
+            event.preventDefault()
+            setFeaturedResult(record)
+            console.log(record)
+            // prevent the default
+            // set the featured result to be this record, using setFeaturedResult
+          }}>
+          { 
+            record.primaryimageurl ? <img src={ record.primaryimageurl } alt={ record.description } /> : null
+            // if the record.primaryimageurl exists, show this: <img src={ record.primaryimageurl } alt={ record.description } />, otherwise show nothing 
+          }
+          {
+            record.title ? <h3>{ record.title }</h3> : <h3>MISSING INFO</h3>
+            // if the record.title exists, add this: <h3>{ record.title }</h3>, otherwise show this: <h3>MISSING INFO</h3>
+          }
+        </div>)
+      }
+      )}
+        {/* /* Here we should map over the records, and render something like this for each one:
           <div  
             key={ index }
             className="object-preview"
@@ -64,7 +85,7 @@ const Preview = (props) => {
             }
           </div>
         */
-      }
+      } 
     </section>
   </aside>
 }
